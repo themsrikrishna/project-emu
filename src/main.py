@@ -1,5 +1,6 @@
 from flask import Flask
 from flask import request
+import os.path
 
 app = Flask(__name__)
 
@@ -7,14 +8,16 @@ outputDirectory = "data/"
 
 
 def write_file(filename, data):
-    file = open(filename, "w")
+    filepath = os.path.join(outputDirectory, filename)
+    file = open(filepath, "w")
     result = file.write(data)
     file.close()
     return result
 
 
 def read_file(filename):
-    file = open(filename, "r")
+    filepath = os.path.join(outputDirectory, filename)
+    file = open(filepath, "r")
     data = file.read()
     file.close()
     return data
