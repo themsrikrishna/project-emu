@@ -1,0 +1,12 @@
+version: '3'  # version of compose format 
+
+services:
+  node-1:
+    build: ./  # path is relative to docker-compose.yml location
+    ports:
+      - 5000:5000  # host:container
+
+  node-2:
+    build: ./  # path is relative to docker-compose.yml location
+    ports:
+      - 5001:5000  # host:container
