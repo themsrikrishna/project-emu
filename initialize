@@ -1,0 +1,20 @@
+#!/bin/sh
+
+nodes=$1
+
+buildComposeYaml() {
+  cat <<HEADER
+version: '3'
+services:
+HEADER
+  for i in $(seq "$nodes"); do
+    cat <<BLOCK
+  node-$i:
+    build: ./
+    ports:
+      - $((5000+i)):5000
+BLOCK
+  done
+}
+
+buildComposeYaml | docker-compose -f- up
