@@ -12,9 +12,15 @@ HEADER
   node-$i:
     build: ./
     ports:
-      - $((5000+i)):5000
+      - $((5000+i-1)):5000
+    environment:
+      - EMU_NODES=$nodes
+      - EMU_NODE=$i
+      - EMU_PORT=5000
 BLOCK
   done
 }
+
+buildComposeYaml
 
 buildComposeYaml | docker-compose -f- up

@@ -7,7 +7,9 @@ app = Flask(__name__)
 
 outputDirectory = "data/"
 
-ports = list(range(5000, 5002))
+NODES = os.getenv('EMU_NODES')
+PORT = os.getenv('EMU_PORT')
+NODE = os.getenv('EMU_NODE')
 
 
 def write_file(filename, data):
@@ -39,6 +41,7 @@ def index():
             requests.post("http://node-2:5000", data={"key": key, "value": value, "is_client": "0"})
         return {"result": result}
     else:
+        print("Nodes: " + NODES)
         key = request.form['key']
         value = read_file(key)
         data = {"key": key, "value": value}
