@@ -28,24 +28,30 @@ def read_file(filename):
     return data
 
 
+@app.route('/write', methods=['POST'])
+def write_file_route():
+    key = request.form['key']
+    value = request.form['value']
+    result = write_file(filename=key, data=value)
+    print(NODE)
+    return {"result": result}
+
+
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
         key = request.form['key']
         value = request.form['value']
-        is_client = request.form['is_client']
-        data = {"key": key, "value": value}
-        print(data)
         result = write_file(filename=key, data=value)
-        if is_client == "1":
-            requests.post("http://node-2:5000", data={"key": key, "value": value, "is_client": "0"})
+        print(NODE)
+        for node in range(1, int(NODES)+1):
+            if node != int(NODE):
+                requests.post('http://node-{0}:{1}/write'.format(node, PORT), data={"key": key, "value": value})
         return {"result": result}
     else:
-        print("Nodes: " + NODES)
         key = request.form['key']
         value = read_file(key)
         data = {"key": key, "value": value}
-        print(data)
         return {"result": value}
 
 

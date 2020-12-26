@@ -17,10 +17,11 @@ HEADER
       - EMU_NODES=$nodes
       - EMU_NODE=$i
       - EMU_PORT=5000
+      - PYTHONUNBUFFERED=1
 BLOCK
   done
 }
 
 buildComposeYaml
 
-buildComposeYaml | docker-compose -f- up
+buildComposeYaml | docker-compose -f- up --build
